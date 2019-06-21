@@ -3,7 +3,7 @@ ARG src_dir="/go/src/github.com/cloudflare/goflow"
 FROM golang:alpine as builder
 ARG src_dir
 
-RUN apk --update --no-cache add git && \
+RUN apk --update --no-cache add git gcc musl-dev openssl && \
     mkdir -p ${src_dir}
 
 WORKDIR ${src_dir}

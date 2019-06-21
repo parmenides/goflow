@@ -67,14 +67,14 @@ func (kafkaState KafkaState) SendKafkaFlowMessage(flowMessage *flowmessage.FlowM
 		log.Printf("unmarshaling error: ", err)
 	} else {
 		log.Debug(fmsg)
-		var srcip := net.IP(fmsg.SrcIP)
-		var dstip := net.IP(fmsg.DstIP)
-		var routeradd := net.IP(fmsg.RouterAddr)
-		var nexthop := net.IP(fmsg.NextHop)
-		var srcipstr := srcip.String()
-		var dstipstr := dstip.String()
-		var routeraddrstr := routeradd.String()
-		var nexthopstr := nexthop.String()
+		srcip := net.IP(fmsg.SrcIP)
+		dstip := net.IP(fmsg.DstIP)
+		routeradd := net.IP(fmsg.RouterAddr)
+		nexthop := net.IP(fmsg.NextHop)
+		srcipstr := srcip.String()
+		dstipstr := dstip.String()
+		routeraddrstr := routeradd.String()
+		nexthopstr := nexthop.String()
 		type IPFIX struct {
 			Type             string
 			TimeRecvd        uint64
@@ -137,10 +137,12 @@ func (kafkaState KafkaState) SendKafkaFlowMessage(flowMessage *flowmessage.FlowM
 			DstVlan:       fmsg.DstVlan,
 			IPv6FlowLabel: fmsg.IPv6FlowLabel,
 		}
+
 		marshaledJson, err := json.Marshal(data)
 		if err != nil {
 			return
 		}
+
 		kafkaState.producer.Input() <- &sarama.ProducerMessage{
 			Topic: kafkaState.topic,
 			Value: sarama.ByteEncoder(marshaledJson),
