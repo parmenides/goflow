@@ -1,10 +1,13 @@
-ARG src_uri=github.com/cloudflare/goflow
+ARG src_uri=github.com/parmenides/goflow
 
 FROM golang:alpine as builder
 ARG src_uri
 
-RUN apk --update --no-cache add git && \
-    go get -u $src_uri
+RUN apk --update --no-cache add git \
+         gcc \
+         musl-dev \
+         openssl \
+         && go get -u $src_uri
 
 FROM alpine:latest
 ARG src_uri

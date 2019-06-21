@@ -55,7 +55,7 @@ Collection:
 * sFlow v5: RAW, IPv4, IPv6, Ethernet samples, Gateway data, router data, switch data
 
 Production:
-* Convert to protobuf
+* Convert to json
 * Sends to Kafka producer
 
 Monitoring:
